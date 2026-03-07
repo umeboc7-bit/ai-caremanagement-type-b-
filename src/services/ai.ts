@@ -1,9 +1,23 @@
 import { GoogleGenAI, Type } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiClient: GoogleGenAI | null = null;
+
+function getAiClient(): GoogleGenAI {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn("GEMINI_API_KEY is not set. AI features will not work.");
+      aiClient = new GoogleGenAI({ apiKey: apiKey || "MISSING_API_KEY" });
+    } else {
+      aiClient = new GoogleGenAI({ apiKey });
+    }
+  }
+  return aiClient;
+}
 
 export async function generateStructuredData(prompt: string, systemInstruction: string, responseSchema: any) {
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
