@@ -17,9 +17,12 @@ export default function Login({ onLogin }: LoginProps) {
     setError('');
     setIsLoading(true);
 
-    // モックのログイン処理
+   // モックのログイン処理
     setTimeout(() => {
-      if (email === 'demo@example.com' && password === 'password') {
+      const validEmail = import.meta.env.VITE_LOGIN_EMAIL || APP_CONFIG.auth.email;
+      const validPassword = import.meta.env.VITE_LOGIN_PASSWORD || APP_CONFIG.auth.password;
+
+      if (email === validEmail && password === validPassword) {
         onLogin();
       } else {
         setError('メールアドレスまたはパスワードが間違っています。');
@@ -47,12 +50,6 @@ export default function Login({ onLogin }: LoginProps) {
               {error}
             </div>
           )}
-
-          <div className="bg-blue-50 text-blue-800 p-4 rounded-lg text-sm mb-6 border border-blue-100">
-            <p className="font-bold mb-1">デモ用アカウント</p>
-            <p>Email: <span className="font-mono bg-white px-1 rounded">demo@example.com</span></p>
-            <p>Password: <span className="font-mono bg-white px-1 rounded">password</span></p>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
