@@ -9,6 +9,11 @@ export const APP_CONFIG = {
     phone: '03-0000-0000',
     managerName: '介護 太郎',
   },
+  // ログイン情報（施設ごとに変更してください）
+  auth: {
+    email: 'facility-b@example.com',
+    password: '1289ab',
+  },
 
   // 印刷設定のデフォルト値
   print: {
